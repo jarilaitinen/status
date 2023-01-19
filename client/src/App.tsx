@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import logo from './logo.svg';
 import Home from './pages/Home'
 import Single from './pages/Single'
-import { Counter } from './features/counter/Counter';
 import './App.css';
 
 

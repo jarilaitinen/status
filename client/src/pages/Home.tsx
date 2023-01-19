@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import List from '@mui/material/List'
 import { Link } from "react-router-dom";
@@ -5,6 +7,8 @@ import ListItemButton from '@mui/material/ListItemButton'
 
 import Header from '../components/Header'
 import { Package } from '../app/slices/packageSlice'
+import { RootState, AppDispatch } from '../app/store'
+import { fetchAllPackages } from '../app/services/packageService'
 
 const testData: Package[] = [
     {
@@ -25,12 +29,24 @@ const testData: Package[] = [
 ]
 
 const Home = () => {
+    const dispatch = useDispatch<AppDispatch>()
+    const packageResults = useSelector((state: RootState) => state.packages.allPackages)
+
+    useEffect(() => {
+        try {
+          dispatch(fetchAllPackages())
+          console.log('loading packages')
+        } catch (error) {
+          console.log(error)
+        }
+      }, [])
+
     return (
         <>
         <Header />
         <h1>Homepage</h1>
         <List>
-            {testData.map( onePackage => {
+            {packageResults.map( onePackage => {
                return (
                 <ListItem component={Link} to={'/' + onePackage.name}>
                     <ListItemText primary={onePackage.name} secondary={onePackage.description} />
