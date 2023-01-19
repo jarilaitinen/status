@@ -22,3 +22,22 @@ export const fetchAllPackages = createAsyncThunk(
       }
     }
   );
+
+export const fetchOnePackage = createAsyncThunk(
+    'packages/fetchone',
+  
+    async (name: string) => {
+      try {
+        const res = await axios.get(`${URL}${name}`); 
+        console.log(res.data) 
+        return {
+          data: res.data,
+          status: res.status,
+        };
+      } catch (error) {
+        return {
+          error: error
+        }
+      }
+    }
+  );

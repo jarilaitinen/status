@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-    fetchAllPackages,
+    fetchAllPackages, fetchOnePackage,
   } from '../services/packageService';
 
 export type Package = {
@@ -62,6 +62,25 @@ export const packageSlice = createSlice({
             state.isLoading = false;
         }
         );
+        builder.addCase(fetchOnePackage.pending, (state: PackagesState) => {
+            state.onePackage = InitialPackage;
+            state.isLoading = true;
+          });
+        builder.addCase(
+        fetchOnePackage.fulfilled,
+        (state: PackagesState, action) => {
+            state.onePackage = action.payload.data;
+            state.isLoading = false;
+        }
+        );
+        builder.addCase(
+            fetchOnePackage.rejected,
+            (state: PackagesState, error) => {
+                console.log(error);
+                state.error = error;
+                state.isLoading = false;
+            }
+            );
     },
 })  
 
