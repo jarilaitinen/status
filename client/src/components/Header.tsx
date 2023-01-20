@@ -10,7 +10,7 @@ const Header = () => {
             justifyContent: 'space-around',
             position: 'relative'
           }}>
-            <h2>Check Package Status</h2>
+            <a href='/'><h2>Check Package Status</h2></a>
         </AppBar>
     )
 }

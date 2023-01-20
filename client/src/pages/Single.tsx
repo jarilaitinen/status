@@ -1,19 +1,14 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from "react-router-dom"
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 import Header from '../components/Header'
 import { PackageDetail } from '../app/slices/packageSlice'
 import { RootState, AppDispatch } from '../app/store'
 import { fetchOnePackage } from '../app/services/packageService'
-
-const testPackage: PackageDetail = 
-    {
-        name: 'test-package-1',
-        description: 'a test package with some text',
-        depends: ['some-other','one-more'],
-        dependencies: ['this-thing','that-thing']
-    }
 
 const Single = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -32,22 +27,32 @@ const Single = () => {
     return (
       <>
         <Header />
-        <div>
-            <h1>{thisPackage.name}</h1>
-            <p>{thisPackage.description}</p>
-            <h3>This package currently depends on:</h3>
+        <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',   
+        padding: '0px 16px'
+        }} >
+        <Paper elevation={3} sx={{
+            padding: '8px 32px',
+            width: '100%'
+        }}>
+            <Typography variant='h1'>{thisPackage.name}</Typography>
+            <Typography>{thisPackage.description}</Typography>
+            <Typography variant='h3'>This package currently depends on:</Typography>
             {thisPackage.depends.map( depend => {
                 return(
-                    <a href={'/' + depend}>{depend},</a>
+                    <a href={'/' + depend}><Typography>{depend},</Typography></a>
                 )
             })}
-            <h3>Packages depending on this package:</h3>
+            <Typography variant='h3'>Packages depending on this package:</Typography>
             {thisPackage.dependencies.map( dependency => {
                 return(
                     <a href={'/' + dependency}>{dependency},</a>
                 )
             })}
-        </div>
+        </Paper>
+        </Box>
  
       </>
     )

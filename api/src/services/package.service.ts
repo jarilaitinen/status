@@ -57,8 +57,9 @@ const loadPackageData = () => {
         packArr.push(thisPackage)
       }
      })
-    //console.log(packArr)
-    return Promise.resolve(packArr)
+
+    const sortedList: Package[] = packArr.sort((a, b) => a.name.localeCompare(b.name));
+    return Promise.resolve(sortedList)
 
 }
 
