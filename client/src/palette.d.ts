@@ -1,13 +1,9 @@
 declare module '@mui/material/styles/createPalette' {
     interface Palette {
-      otherColor: {
-        main?: string;
-      };
+      mode?: string;
     }
     interface PaletteOptions {
-      otherColor: {
-        main?: string;
-      };
+      mode?: string;
     }
   }
   

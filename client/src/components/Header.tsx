@@ -1,5 +1,6 @@
 import AppBar from '@mui/material/AppBar'
 import Typography from '@mui/material/Typography'
+import Link from '@mui/material/Link'
 
 const Header = () => {
     return(
@@ -11,7 +12,7 @@ const Header = () => {
             justifyContent: 'space-around',
             position: 'relative'
           }}>
-            <a href='/'><Typography variant="h2">Check Package Status</Typography></a>
+            <Link href='/' variant="h1">Check Package Status</Link>
         </AppBar>
     )
 }

@@ -38,10 +38,11 @@ const Searchbar = () => {
           }}>
             <InputBase
             type="text"
-            placeholder="Search packages"
+            placeholder="search packages"
             onChange={handleInputChange}
+            color="primary"
             />
-            <Search className="search-icon" fontSize="medium" />
+            <Search className="search-icon" fontSize="medium" color="primary"/>
         </Box>
     )
 }
