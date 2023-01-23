@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Typography } from '@mui/material'
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Header from '../components/Header'
 import Searchbar from '../components/Searchbar'
 import Table from '../components/Table'
-import { RootState, AppDispatch } from '../app/store'
+import { RootState } from '../app/store'
 
 const Home = () => {
 

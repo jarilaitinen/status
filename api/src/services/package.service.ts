@@ -36,26 +36,30 @@ import fs from 'fs'
   return Promise.resolve(packArr)
 } */
 
+
 const loadPackageData = () => {
   const packArr: Package[] = []
-
-  const data = fs.readFileSync('./status.example', {encoding:'utf8', flag:'r'}) 
-    
-  const arr = data.toString().split('\n\n');
+  const data = fs.readFileSync('./status.example', {encoding:'utf8', flag:'r'})   
+  const arr = data.toString().split(/(\r\n|\r|\n)(\r\n|\r|\n)/);
   arr.forEach(a => {
-      const splitName = a.match(/Package\:\ (.*?)\n/)
-      const matchDesc = a.match(/Description\:\ (.*?)\n/)
-      const matchDeps = a.match(/Depends\:\ (.*?)\n/)
-  
-      if (splitName && matchDesc && matchDeps) {
-        const packageName = splitName[1].replace(/ * /g, '-')
-        const packageDesc = matchDesc[1]
-        let packageDeps = matchDeps[1].split(', ')
-        packageDeps = packageDeps.map(a => a.replace(/\(.*?\)/, '').trim())
+      const matchName = a.match(/Package:\ (.*?)\n/)
+      const matchDesc = a.match(/Description: (.*)(Homepage|Original)/s)
+      const matchDeps = a.match(/Depends:\ (.*?)\n/)
 
+      if (matchName) {
+        const packageName = matchName[1].replace(/ * /g, '-')
+        let packageDesc = ''
+        if (matchDesc) {
+          packageDesc = matchDesc[1]
+        }
+        let packageDeps: string[] = []
+        if (matchDeps) {
+          const separateDeps = matchDeps[1].split(', ')
+          packageDeps = separateDeps.map(a => a.replace(/\(.*?\)/, '').trim())
+        }
         const thisPackage = new Package(packageName, packageDesc, packageDeps)
         packArr.push(thisPackage)
-      }
+      } 
      })
 
     const sortedList: Package[] = packArr.sort((a, b) => a.name.localeCompare(b.name));
@@ -75,12 +79,13 @@ const findAll = async (): Promise<Package[]> => {
 
 const findByName = async (name: string): Promise<PackageDetail> => {
     const packages = await loadPackageData()
-
+    
     const match = packages.filter(obj => {
       return obj.name === name
     })
     if (!match) {
-      throw new NotFoundError(`Data not found`)
+      console.log("name:", name)
+      throw new NotFoundError(`Package not found`)
     }
     const dependencies = packages.filter(obj => {
       if (obj.depends.includes(name))

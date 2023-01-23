@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import InputBase from '@mui/material/InputBase'
 import { Search } from '@mui/icons-material'
 
-import { RootState, AppDispatch } from '../app/store'
+import { AppDispatch } from '../app/store'
 import { searchPackages, setIsSearching } from '../app/slices/packageSlice'
 
 const Searchbar = () => {
