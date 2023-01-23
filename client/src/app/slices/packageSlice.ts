@@ -26,22 +26,36 @@ const InitialPackage: PackageDetail = {
 
 export interface PackagesState {
     allPackages: Package[];
+    searchResults: Package[];
     onePackage: PackageDetail;
     isLoading: boolean;
+    isSearching: boolean;
     error: any
   }
   
 const initialState: PackagesState = {
     allPackages: [],
+    searchResults: [],
     onePackage: InitialPackage,
     isLoading: false,
+    isSearching: false,
     error: undefined
   };
 
 export const packageSlice = createSlice({
     name: 'packages', 
     initialState,
-    reducers: {},
+    reducers: {
+        searchPackages: (state, action) => {
+        state.searchResults = state.allPackages.filter((pack) =>
+          pack.name.toLowerCase().includes(action.payload)
+        )
+      },
+      setIsSearching: (state, action: { payload: boolean }) => {
+        if (!action.payload) state.searchResults = []
+        state.isSearching = action.payload
+      },
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchAllPackages.pending, (state: PackagesState) => {
             state.allPackages = [];
@@ -84,4 +98,8 @@ export const packageSlice = createSlice({
     },
 })  
 
+export const {
+    searchPackages,
+    setIsSearching,
+  } = packageSlice.actions
 export default packageSlice.reducer;
