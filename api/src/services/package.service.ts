@@ -48,7 +48,7 @@ const loadPackageData = () => {
       const matchDeps = a.match(/Depends\:\ (.*?)\n/)
   
       if (splitName && matchDesc && matchDeps) {
-        const packageName = splitName[1]
+        const packageName = splitName[1].replace(/ * /g, '-')
         const packageDesc = matchDesc[1]
         let packageDeps = matchDeps[1].split(', ')
         packageDeps = packageDeps.map(a => a.replace(/\(.*?\)/, '').trim())
