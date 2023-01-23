@@ -47,14 +47,14 @@ const Table = () => {
             ? searchResults.slice((page - 1) * itemsPerPage, page * itemsPerPage).map( onePackage => {
                 return (
                     <ListItem component={Link} to={'/' + onePackage.name}>
-                        <ListItemText primary={onePackage.name} secondary={onePackage.description} />
+                        <ListItemText primary={onePackage.name} secondary={onePackage.description.substring(0, 70) + "..."} />
                     </ListItem>
                 ) 
                 })
             : allPackages.slice((page - 1) * itemsPerPage, page * itemsPerPage).map( onePackage => {
                 return (
                     <ListItem component={Link} to={'/' + onePackage.name}>
-                        <ListItemText primary={onePackage.name} secondary={onePackage.description} />
+                        <ListItemText primary={onePackage.name} secondary={onePackage.description.substring(0, 70) + "..."} />
                     </ListItem>
                 ) 
                 })

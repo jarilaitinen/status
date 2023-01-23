@@ -15,8 +15,5 @@ app.use(
 // Set up routers
 console.log('=========================')
 app.use(packageRouter)
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-  })
 
 export default app

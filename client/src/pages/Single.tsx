@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import Header from '../components/Header'
-import { PackageDetail } from '../app/slices/packageSlice'
 import { RootState, AppDispatch } from '../app/store'
 import { fetchOnePackage } from '../app/services/packageService'
 
@@ -15,6 +14,13 @@ const Single = () => {
     const thisPackage = useSelector((state: RootState) => state.packages.onePackage)
     const params = useParams();
     const packageName: string | undefined = params.name!;
+
+    const splitParagraphs = (text: string) => {
+      const paragraphs = text.split(/\n .\n/)
+      paragraphs.forEach(par => {
+        return <Typography>{par}</Typography>
+      })
+    }
 
     useEffect(() => {
         try {
@@ -38,19 +44,31 @@ const Single = () => {
             width: '100%'
         }}>
             <Typography variant='h1'>{thisPackage.name}</Typography>
-            <Typography>{thisPackage.description}</Typography>
+            <Box>{thisPackage.description.split(/\n .\n/).map( par => {
+                return(
+                    <Typography>{par}<br /><br /></Typography>
+                )
+            }
+
+            )}</Box>
             <Typography variant='h3'>This package currently depends on:</Typography>
-            {thisPackage.depends.map( depend => {
+            {thisPackage.depends.length > 0
+            ? thisPackage.depends.map( depend => {
                 return(
-                    <a href={'/' + depend}><Typography>{depend},</Typography></a>
+                    <a href={'/' + depend}><Typography>{depend}</Typography></a>
                 )
-            })}
+            })
+            : <Typography>None</Typography>
+            }
             <Typography variant='h3'>Packages depending on this package:</Typography>
-            {thisPackage.dependencies.map( dependency => {
+            {thisPackage.dependencies.length > 0 
+            ? thisPackage.dependencies.map( dependency => {
                 return(
-                    <a href={'/' + dependency}>{dependency},</a>
+                    <a href={'/' + dependency}><Typography>{dependency}</Typography></a>
                 )
-            })}
+            })
+            : <Typography>None</Typography>
+            }
         </Paper>
         </Box>
  
